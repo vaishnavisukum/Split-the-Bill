@@ -110,19 +110,16 @@ npm run preview
 
 **Wallet connected state**
 
-`docs/screenshots/wallet-connected.png`
+![alt text](image.png)
 
 **Balance displayed**
 
-`docs/screenshots/balance-displayed.png`
+![alt text](image.png)
 
 **Successful testnet transaction**
 
-`docs/screenshots/transaction-success.png`
+![alt text](image-1.png)
 
-**Transaction result shown to the user**
-
-`docs/screenshots/transaction-result.png`
 
 ## Notes on error handling
 
