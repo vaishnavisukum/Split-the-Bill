@@ -1,0 +1,523 @@
+/* ---------------------------------------------------------------------
+   Design tokens
+   Concept: a paper ticket / receipt ledger for splitting a tab, printed
+   on deep-indigo "counter" background. Ticket-stub cards with
+   perforated edges + dotted-leader rows are the signature device.
+--------------------------------------------------------------------- */
+:root {
+  --ink: #14171f;
+  --ink-2: #1b1f2c;
+  --ink-3: #232838;
+  --ink-border: #323a52;
+
+  --paper: #f6f1e3;
+  --paper-edge: #e7ddc0;
+  --paper-text: #292418;
+  --paper-text-soft: #7a7361;
+
+  --brass: #c69a2e;
+  --brass-dark: #a97e1e;
+  --teal: #3f8f86;
+  --teal-dark: #2f6b64;
+  --rust: #b6503a;
+
+  --font-display: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "Work Sans", "Segoe UI", system-ui, sans-serif;
+
+  --radius: 4px;
+  --shadow-card: 0 18px 40px -20px rgba(0, 0, 0, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ink);
+  background-image: radial-gradient(
+      circle at 20% -10%,
+      rgba(198, 154, 46, 0.08),
+      transparent 45%
+    ),
+    radial-gradient(circle at 90% 10%, rgba(63, 143, 134, 0.08), transparent 50%);
+  color: var(--paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.mono {
+  font-family: var(--font-display);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ---------------------------------------------------------------------
+   Shell + layout
+--------------------------------------------------------------------- */
+.app-shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+.layout-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 820px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.app-footer {
+  margin-top: 48px;
+  text-align: center;
+  color: #565f7a;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------------------------------------------------------------------
+   Hero ticket
+--------------------------------------------------------------------- */
+.hero-ticket {
+  position: relative;
+  background: var(--paper);
+  color: var(--paper-text);
+  border-radius: var(--radius);
+  padding: 40px 40px 34px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--paper-edge);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 10px 0 8px;
+  text-transform: uppercase;
+}
+
+.hero-tagline {
+  margin: 0 auto;
+  max-width: 480px;
+  color: var(--paper-text-soft);
+  font-size: 15px;
+}
+
+/* ---------------------------------------------------------------------
+   Ticket-stub / receipt cards + perforation signature device
+--------------------------------------------------------------------- */
+.ticket-card {
+  position: relative;
+  background: var(--paper);
+  color: var(--paper-text);
+  border-radius: var(--radius);
+  padding: 26px 28px 28px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--paper-edge);
+}
+
+.stub-perf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background-image: radial-gradient(
+    circle,
+    var(--ink) 5.5px,
+    transparent 6px
+  );
+  background-size: 22px 14px;
+  background-repeat: repeat-x;
+  background-position: 11px center;
+}
+
+.stub-perf-top {
+  top: -7px;
+}
+
+.stub-perf-bottom {
+  bottom: -7px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+}
+
+.ticket-title {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--paper-text);
+}
+
+.stub-copy {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--paper-text-soft);
+}
+
+.stub-copy-muted {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.stub-divider {
+  border-top: 1px dashed var(--paper-edge);
+  margin: 14px 0;
+}
+
+.stub-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.stub-row dt {
+  color: var(--paper-text-soft);
+}
+
+.stub-row dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.stub-row-balance dd {
+  font-size: 18px;
+}
+
+.balance-amount {
+  color: var(--teal-dark);
+}
+
+/* ---------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--radius);
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.btn-brass {
+  background: var(--brass);
+  color: #241a05;
+  box-shadow: 0 8px 18px -8px rgba(198, 154, 46, 0.7);
+}
+
+.btn-teal {
+  background: var(--teal);
+  color: #08211e;
+  box-shadow: 0 8px 18px -8px rgba(63, 143, 134, 0.6);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--paper-text-soft);
+  border: 1px solid var(--paper-edge);
+  margin-top: 12px;
+}
+
+.btn-small {
+  width: auto;
+  padding: 9px 16px;
+  font-size: 13px;
+}
+
+.btn-tiny {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+   Forms
+--------------------------------------------------------------------- */
+.field-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--paper-text-soft);
+  flex: 1;
+  min-width: 140px;
+  margin-bottom: 14px;
+}
+
+.field-narrow {
+  flex: 0 0 90px;
+  min-width: 90px;
+}
+
+.field-wide {
+  flex: 2;
+  min-width: 220px;
+}
+
+.field input {
+  border: 1px solid var(--paper-edge);
+  background: #fffdf6;
+  color: var(--paper-text);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 1px;
+}
+
+.field-group-label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--paper-text-soft);
+}
+
+.form-error {
+  color: var(--rust);
+  font-size: 13px;
+  margin: -6px 0 12px;
+}
+
+.warning-banner {
+  background: #3a2416;
+  color: #f2c9a6;
+  border: 1px solid #5c3b22;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+
+.global-error {
+  max-width: 640px;
+  margin: 0 auto 20px;
+}
+
+/* ---------------------------------------------------------------------
+   Ledger rows (dotted-leader receipt lines) — signature element
+--------------------------------------------------------------------- */
+.ledger-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ledger-row {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--paper-edge);
+}
+
+.ledger-row:last-child {
+  border-bottom: none;
+}
+
+.ledger-row-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ledger-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ledger-leader {
+  flex: 1;
+  border-bottom: 2px dotted var(--paper-edge);
+  transform: translateY(-4px);
+}
+
+.ledger-amount {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--teal-dark);
+}
+
+.ledger-row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.ledger-address {
+  font-size: 12px;
+  color: var(--paper-text-soft);
+}
+
+.ledger-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge-paid {
+  background: rgba(63, 143, 134, 0.15);
+  color: var(--teal-dark);
+}
+
+/* ---------------------------------------------------------------------
+   Transaction log + stamps
+--------------------------------------------------------------------- */
+.tx-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tx-row {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--paper-edge);
+}
+
+.tx-row:last-child {
+  border-bottom: none;
+}
+
+.tx-row-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tx-participant {
+  flex: 1;
+  font-weight: 600;
+}
+
+.tx-amount {
+  font-weight: 700;
+}
+
+.tx-row-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--paper-text-soft);
+}
+
+.tx-hash {
+  color: var(--teal-dark);
+  text-decoration: none;
+}
+
+.tx-hash:hover {
+  text-decoration: underline;
+}
+
+.tx-error {
+  color: var(--rust);
+}
+
+.stamp {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  transform: rotate(-4deg);
+  display: inline-block;
+}
+
+.stamp-paid {
+  color: var(--teal-dark);
+}
+
+.stamp-failed {
+  color: var(--rust);
+}
+
+.stamp-pending {
+  color: var(--brass-dark);
+}
+
+/* ---------------------------------------------------------------------
+   Links
+--------------------------------------------------------------------- */
+a {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
